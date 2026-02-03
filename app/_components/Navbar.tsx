@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import LogoutButton from "./LogoutButton";
 
 const Navbar = () => {
   const session = true;
@@ -15,9 +16,17 @@ const Navbar = () => {
               <Link href="/contact" className=" hover:text-blue-600 mr-8">
                 Contacts
               </Link>
+              <LogoutButton />
             </>
           ) : (
-            <></>
+            <>
+              <Link href="/login" className=" hover:text-blue-600 mr-5">
+                Login
+              </Link>
+              <Link href="/register" className=" hover:text-blue-600">
+                Register
+              </Link>
+            </>
           )}
         </div>
       </div>
