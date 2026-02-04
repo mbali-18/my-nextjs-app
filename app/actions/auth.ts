@@ -11,18 +11,20 @@ type UserType = {
 const API_URL = "http://localhost:3001/users";
 
 export const loginAction = async (formData: FormData) => {
-    console.log("formData:", formData)
+    console.log("user")
     try {
-        const response = await axios.get(`${API_URL}/users?email=${formData.get("email")}&password=${formData.get("password")}`);
-        const user: UserType = response.data[0]; 
+        const email = encodeURIComponent(String(formData.get("email") ?? ""));
+        const password = encodeURIComponent(String(formData.get("password") ?? ""));
+        const response = await axios.get(`${API_URL}?email=${email}&password=${password}`);
+        const data = response.data;
+        const user: UserType | undefined = Array.isArray(data) ? data[0] : data;
         if (!user) {
-            throw new Error("Invalid Credentials");
-            //set user in the cookies 
-            
-
-        } 
+            throw new Error("Invalid credentials");
+        }
         redirect('/contact');
     } catch (error) {
+        console.error("loginAction error:", error);
+        if (error instanceof Error) throw error;
         throw new Error("Login failed");
     }
 
